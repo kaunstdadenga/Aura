@@ -1,7 +1,7 @@
 // Copyright kaunstdadenga
 
 
-#include "AAuraCharacterBase.h"
+#include "..\..\Public\Character\AuraCharacterBase.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
