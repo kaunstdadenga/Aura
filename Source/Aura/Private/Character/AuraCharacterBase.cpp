@@ -1,10 +1,9 @@
 // Copyright kaunstdadenga
 
 
-#include "..\..\Public\Character\AuraCharacterBase.h"
+#include "../../Public/Character/AuraCharacterBase.h"
 
-AAuraCharacterBase::AAuraCharacterBase()
-{
+AAuraCharacterBase::AAuraCharacterBase() {
 	PrimaryActorTick.bCanEverTick = false;
 
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
@@ -12,14 +11,10 @@ AAuraCharacterBase::AAuraCharacterBase()
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
-UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
-{
+UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const {
 	return AbilitySystemComponent;
 }
 
-void AAuraCharacterBase::BeginPlay()
-{
+void AAuraCharacterBase::BeginPlay() {
 	Super::BeginPlay();
 }
-
-

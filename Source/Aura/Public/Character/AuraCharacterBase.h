@@ -11,8 +11,7 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 
 UCLASS(Abstract)
-class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface
-{
+class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface {
 	GENERATED_BODY()
 
 public:
