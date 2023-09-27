@@ -6,12 +6,22 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "OverlayWidgetController.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float, NewMaxHealth);
+
 /**
  * 
  */
-UCLASS()
-class AURA_API UOverlayWidgetController : public UAuraWidgetController
-{
-	GENERATED_BODY()
-	
+UCLASS(BlueprintType, Blueprintable)
+class AURA_API UOverlayWidgetController : public UAuraWidgetController {
+    GENERATED_BODY()
+
+public:
+    void BroadcastInitialValues() override;
+
+    UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+    FOnHealthChangedSignature OnHealthChanged;
+    UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+    FOnMaxHealthChangedSignature OnMaxHealthChanged;
 };
