@@ -39,7 +39,7 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void OnOverlap(AActor* TargetActor);
 	UFUNCTION(BlueprintCallable)
-	void OnEndOverlapp(AActor* TargetActor);
+	void OnEndOverlap(AActor* TargetActor);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effects")
 	bool bDestroyOnEffectRemoval = false;
