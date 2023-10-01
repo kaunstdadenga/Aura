@@ -38,6 +38,8 @@ struct FInstantGameplayEffect {
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool bDestroyOnEffectRemoval = false;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float EffectLevel = 1.f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> GameplayEffectClass;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	EEffectApplicationPolicy InstantEffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
@@ -57,6 +59,8 @@ struct FDurationGameplayEffect {
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool bDestroyOnEffectRemoval = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float EffectLevel = 1.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> GameplayEffectClass;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -80,6 +84,8 @@ struct FInfiniteGameplayEffect {
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool bDestroyOnEffectRemoval = false;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float EffectLevel = 1.f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> GameplayEffectClass;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	EEffectApplicationPolicy InfiniteEffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
@@ -100,7 +106,8 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	FActiveGameplayEffectHandle ApplyEffectToTarget(UAbilitySystemComponent* TargetASC,
-	                                                TSubclassOf<UGameplayEffect> GameplayEffectClass);
+	                                                TSubclassOf<UGameplayEffect> GameplayEffectClass,
+	                                                float EffectLevel);
 
 	UFUNCTION(BlueprintCallable)
 	void OnOverlap(AActor* TargetActor);
