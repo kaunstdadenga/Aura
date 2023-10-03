@@ -73,3 +73,33 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RD-Win64-DebugGame.pdb
+Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RD-Win64-DebugGame.pdb
+Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RiderBlueprint-Win64-DebugGame.pdb
+Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RiderGameControl-Win64-DebugGame.pdb
+Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RiderLC-Win64-DebugGame.pdb
+Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RiderLink-Win64-DebugGame.pdb
+Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RiderLogging-Win64-DebugGame.pdb
+Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RiderShaderInfo-Win64-DebugGame.pdb
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RD/Default.rc2.res
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RD/Default.rc2.res.rsp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RD/UnrealEditor-RD-Win64-DebugGame.exp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderBlueprint/Default.rc2.res
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderBlueprint/Default.rc2.res.rsp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderBlueprint/UnrealEditor-RiderBlueprint-Win64-DebugGame.exp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderGameControl/Default.rc2.res
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderGameControl/Default.rc2.res.rsp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderGameControl/UnrealEditor-RiderGameControl-Win64-DebugGame.exp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderLC/Default.rc2.res
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderLC/Default.rc2.res.rsp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderLC/UnrealEditor-RiderLC-Win64-DebugGame.exp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderLink/Default.rc2.res
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderLink/Default.rc2.res.rsp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderLink/UnrealEditor-RiderLink-Win64-DebugGame.exp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderLogging/Default.rc2.res
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderLogging/Default.rc2.res.rsp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderLogging/UnrealEditor-RiderLogging-Win64-DebugGame.exp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderShaderInfo/Default.rc2.res
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderShaderInfo/Default.rc2.res.rsp
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/DebugGame/RiderShaderInfo/UnrealEditor-RiderShaderInfo-Win64-DebugGame.exp
+Plugins/Developer/RiderLink/Intermediate/FileSystemMappings.ini
