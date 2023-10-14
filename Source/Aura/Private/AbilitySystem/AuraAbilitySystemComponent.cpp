@@ -7,8 +7,6 @@
 
 void UAuraAbilitySystemComponent::AbilityActorInfoSet() {
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::EffectApplied);
-
-	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 }
 
 void UAuraAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent,
