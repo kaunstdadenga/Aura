@@ -65,4 +65,6 @@ private:
 	float AutoRunAcceptanceRadius = 50.f;
 
 	TObjectPtr<USplineComponent> Spline;
+
+	void AutoRun();
 };
