@@ -198,12 +198,12 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 	}
 }
 
-void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedhit,
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit,
                                          bool bCriticalHit) const {
 	if (Props.SourceCharacter != Props.TargetCharacter) {
 		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(
 			UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0))) {
-			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
 		}
 	}
 }
