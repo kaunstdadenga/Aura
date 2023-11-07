@@ -43,6 +43,9 @@ public:
 
 	/* Damage System */
 	FGameplayTag Damage;
+	FGameplayTag Damage_Fire;
+
+	TArray<FGameplayTag> DamageTypes;
 
 	/* Effects */
 	FGameplayTag Effects_HitReact;
