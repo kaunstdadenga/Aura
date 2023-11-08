@@ -30,13 +30,10 @@ struct FInstantGameplayEffect {
 	FInstantGameplayEffect() {}
 
 	FInstantGameplayEffect(const TSubclassOf<UGameplayEffect> GameplayEffectClass,
-	                       const bool bDestroyOnEffectRemoval,
 	                       const EEffectApplicationPolicy InstantEffectApplicationPolicy) :
-		bDestroyOnEffectRemoval(bDestroyOnEffectRemoval), GameplayEffectClass(GameplayEffectClass),
+		GameplayEffectClass(GameplayEffectClass),
 		InstantEffectApplicationPolicy(InstantEffectApplicationPolicy) {}
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	bool bDestroyOnEffectRemoval = false;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float EffectLevel = 1.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -52,13 +49,10 @@ struct FDurationGameplayEffect {
 	FDurationGameplayEffect() {}
 
 	FDurationGameplayEffect(const TSubclassOf<UGameplayEffect> GameplayEffectClass,
-	                        const bool bDestroyOnEffectRemoval,
 	                        const EEffectApplicationPolicy DurationEffectApplicationPolicy) :
-		bDestroyOnEffectRemoval(bDestroyOnEffectRemoval), GameplayEffectClass(GameplayEffectClass),
+		GameplayEffectClass(GameplayEffectClass),
 		DurationEffectApplicationPolicy(DurationEffectApplicationPolicy) {}
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	bool bDestroyOnEffectRemoval = false;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float EffectLevel = 1.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -74,15 +68,12 @@ struct FInfiniteGameplayEffect {
 	FInfiniteGameplayEffect() {}
 
 	FInfiniteGameplayEffect(const TSubclassOf<UGameplayEffect> GameplayEffectClass,
-	                        const bool bDestroyOnEffectRemoval,
 	                        const EEffectApplicationPolicy InfiniteEffectApplicationPolicy,
 	                        const EEffectRemovalPolicy InfiniteEffectRemovalPolicy) :
-		bDestroyOnEffectRemoval(bDestroyOnEffectRemoval), GameplayEffectClass(GameplayEffectClass),
+		GameplayEffectClass(GameplayEffectClass),
 		InfiniteEffectApplicationPolicy(InfiniteEffectApplicationPolicy),
 		InfiniteEffectRemovalPolicy(InfiniteEffectRemovalPolicy) {}
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	bool bDestroyOnEffectRemoval = false;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float EffectLevel = 1.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -105,9 +96,15 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	FActiveGameplayEffectHandle ApplyEffectToTarget(UAbilitySystemComponent* TargetASC,
-	                                                TSubclassOf<UGameplayEffect> GameplayEffectClass,
-	                                                float EffectLevel);
+	void ApplyEffectToTarget(UAbilitySystemComponent* TargetASC,
+	                         TSubclassOf<UGameplayEffect> GameplayEffectClass,
+	                         float EffectLevel);
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool bDestroyOnEffectApplication = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool bApplyEffectsToEnemies = false;
 
 	UFUNCTION(BlueprintCallable)
 	void OnOverlap(AActor* TargetActor);
@@ -125,4 +122,9 @@ protected:
 
 private:
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
+
+	void ApplyEffectToTarget(UAbilitySystemComponent* TargetASC,
+	                         TSubclassOf<UGameplayEffect> GameplayEffectClass,
+	                         float EffectLevel, bool bSuppressDestroyOnEffectApplication,
+	                         bool bAddToActiveEffects);
 };

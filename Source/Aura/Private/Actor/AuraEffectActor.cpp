@@ -16,9 +16,19 @@ void AAuraEffectActor::BeginPlay() {
 	Super::BeginPlay();
 }
 
-FActiveGameplayEffectHandle AAuraEffectActor::ApplyEffectToTarget(UAbilitySystemComponent* TargetASC,
-                                                                  TSubclassOf<UGameplayEffect> GameplayEffectClass,
-                                                                  float EffectLevel) {
+void AAuraEffectActor::ApplyEffectToTarget(UAbilitySystemComponent* TargetASC,
+                                           TSubclassOf<UGameplayEffect> GameplayEffectClass, float EffectLevel) {
+	ApplyEffectToTarget(TargetASC, GameplayEffectClass, EffectLevel, false, false);
+}
+
+void AAuraEffectActor::ApplyEffectToTarget(UAbilitySystemComponent* TargetASC,
+                                           TSubclassOf<UGameplayEffect> GameplayEffectClass,
+                                           float EffectLevel,
+                                           bool bSuppressDestroyOnEffectApplication,
+                                           bool bAddToActiveEffects) {
+	if (TargetASC->GetAvatarActor()->ActorHasTag(FName("Enemy")) && !bApplyEffectsToEnemies) {
+		return;
+	}
 	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
 
@@ -28,10 +38,21 @@ FActiveGameplayEffectHandle AAuraEffectActor::ApplyEffectToTarget(UAbilitySystem
 	const FActiveGameplayEffectHandle ActiveEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(
 		*EffectSpecHandle.Data.Get());
 
-	return ActiveEffectHandle;
+	if (bAddToActiveEffects) {
+		ActiveEffectHandles.Add(ActiveEffectHandle, TargetASC);
+	}
+
+	if (bDestroyOnEffectApplication && EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy !=
+		EGameplayEffectDurationType::Infinite && !bSuppressDestroyOnEffectApplication) {
+		Destroy();
+	}
 }
 
 void AAuraEffectActor::OnOverlap(AActor* TargetActor) {
+	if (TargetActor->ActorHasTag(FName("Enemy")) && !bApplyEffectsToEnemies) {
+		return;
+	}
+
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if (TargetASC == nullptr) {
 		return;
@@ -40,28 +61,33 @@ void AAuraEffectActor::OnOverlap(AActor* TargetActor) {
 	for (const auto InstantGameplayEffect : InstantGameplayEffects) {
 		if (InstantGameplayEffect.InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap) {
 			ApplyEffectToTarget(TargetASC, InstantGameplayEffect.GameplayEffectClass,
-			                    InstantGameplayEffect.EffectLevel);
+			                    InstantGameplayEffect.EffectLevel, true, false);
 		}
 	}
 	for (const auto DurationGameplayEffect : DurationGameplayEffects) {
 		if (DurationGameplayEffect.DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap) {
 			ApplyEffectToTarget(TargetASC, DurationGameplayEffect.GameplayEffectClass,
-			                    DurationGameplayEffect.EffectLevel);
+			                    DurationGameplayEffect.EffectLevel, true, false);
 		}
 	}
 	for (const auto InfiniteGameplayEffect : InfiniteGameplayEffects) {
 		if (InfiniteGameplayEffect.InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap) {
-			FActiveGameplayEffectHandle ActiveEffectHandle = ApplyEffectToTarget(
-				TargetASC, InfiniteGameplayEffect.GameplayEffectClass, InfiniteGameplayEffect.EffectLevel);
-
-			if (InfiniteGameplayEffect.InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap) {
-				ActiveEffectHandles.Add(ActiveEffectHandle, TargetASC);
-			}
+			ApplyEffectToTarget(
+				TargetASC, InfiniteGameplayEffect.GameplayEffectClass, InfiniteGameplayEffect.EffectLevel, true,
+				InfiniteGameplayEffect.InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap);
 		}
+	}
+
+	if (bDestroyOnEffectApplication && InstantGameplayEffects.Num() > 0 && DurationGameplayEffects.Num() == 0 &&
+		InfiniteGameplayEffects.Num() == 0) {
+		Destroy();
 	}
 }
 
 void AAuraEffectActor::OnEndOverlap(AActor* TargetActor) {
+	if (TargetActor->ActorHasTag(FName("Enemy")) && !bApplyEffectsToEnemies) {
+		return;
+	}
 	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	if (TargetASC == nullptr) {
 		return;
