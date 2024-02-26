@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
+#include "AuraAbilitySystemComponent.h"
 #include "AuraAbilitySystemComponent.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTag, const FGameplayTagContainer&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FAbilitiesGiven, UAuraAbilitySystemComponent*);
 
 /**
  * 
@@ -19,8 +21,10 @@ public:
 	void AbilityActorInfoSet();
 
 	FEffectAssetTag EffectAssetTag;
+	FAbilitiesGiven AbilitiesGivenDelegate;
 
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
+	bool bStartupAbilitiesGiven = false;
 
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
