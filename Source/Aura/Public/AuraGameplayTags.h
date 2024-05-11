@@ -38,6 +38,9 @@ public:
 	FGameplayTag Attributes_Resistance_Arcane;
 	FGameplayTag Attributes_Resistance_Physical;
 
+	/* Meat Attributes */
+	FGameplayTag Attributes_Meta_IncomingXP;
+
 	/* Ability Input Actions */
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
