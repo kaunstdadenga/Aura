@@ -45,4 +45,7 @@ void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& 
 	Info.AttributeValue = Attribute.GetNumericValue(AttributeSet);
 
 	AttributeInfoDelegate.Broadcast(Info);
+
+	const AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	AttributePointsChangedDelegate.Broadcast(AuraPlayerState->GetAttributePoints());
 }
