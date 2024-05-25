@@ -133,18 +133,34 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			if (NumLevelUps > 0) {
 				const int32 AttributePoints = IPlayerInterface::Execute_GetAttributePointsReward(
 					Props.SourceCharacter, CurrentLevel);
-				const int32 SpellPoints = IPlayerInterface::Execute_GetSpellPointsReward(Props.SourceCharacter, CurrentLevel);
+				const int32 SpellPoints = IPlayerInterface::Execute_GetSpellPointsReward(
+					Props.SourceCharacter, CurrentLevel);
 
 				IPlayerInterface::Execute_AddToPlayerLevel(Props.SourceCharacter, NumLevelUps);
 				IPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter, AttributePoints);
 				IPlayerInterface::Execute_AddToSpellPoints(Props.SourceCharacter, SpellPoints);
-				SetHealth(GetMaxHealth());
-				SetMana(GetMaxMana());
+
+				bTopOffHealth = true;
+				bTopOffMana = true;
+
 				IPlayerInterface::Execute_LevelUp(Props.SourceCharacter);
 			}
 
 			IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalIncomingXP);
 		}
+	}
+}
+
+void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) {
+	Super::PostAttributeChange(Attribute, OldValue, NewValue);
+
+	if (Attribute == GetMaxHealthAttribute() && bTopOffHealth) {
+		SetHealth(GetMaxHealth());
+		bTopOffHealth = false;
+	}
+	if (Attribute == GetMaxManaAttribute() && bTopOffMana) {
+		SetMana(GetMaxMana());
+		bTopOffMana = false;
 	}
 }
 
