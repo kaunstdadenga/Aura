@@ -94,7 +94,7 @@ FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbi
 
 FGameplayTag UAuraAbilitySystemComponent::GetStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec) {
 	for (FGameplayTag Tag : AbilitySpec.DynamicAbilityTags) {
-		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Ability.Status")))) {
+		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Abilities.Status")))) {
 			return Tag;
 		}
 	}
