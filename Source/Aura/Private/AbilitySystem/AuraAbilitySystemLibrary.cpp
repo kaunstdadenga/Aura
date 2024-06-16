@@ -205,6 +205,14 @@ FGameplayTag UAuraAbilitySystemLibrary::GetDamageType(const FGameplayEffectConte
 	return FGameplayTag();
 }
 
+FVector UAuraAbilitySystemLibrary::GetDeathImpulse(const FGameplayEffectContextHandle& EffectContextHandle) {
+	if (const FAuraGameplayEffectContext* AuraContext = static_cast<const FAuraGameplayEffectContext*>(
+		EffectContextHandle.Get())) {
+		return AuraContext->GetDeathImpulse();
+	}
+	return FVector::Zero();
+}
+
 void UAuraAbilitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& EffectContextHandle,
                                                 bool bInIsBlockedHit) {
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(
@@ -249,9 +257,16 @@ void UAuraAbilitySystemLibrary::SetDebuffFrequency(FGameplayEffectContextHandle&
 }
 
 void UAuraAbilitySystemLibrary::SetDamageType(FGameplayEffectContextHandle& EffectContextHandle,
-                                              const FGameplayTag& DamageType) {
+                                              const FGameplayTag& InDamageType) {
 	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get())) {
-		AuraContext->SetDamageType(MakeShared<FGameplayTag>(DamageType));
+		AuraContext->SetDamageType(MakeShared<FGameplayTag>(InDamageType));
+	}
+}
+
+void UAuraAbilitySystemLibrary::SetDeathImpulse(FGameplayEffectContextHandle& EffectContextHandle,
+                                                const FVector& InDeathImpulse) {
+	if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get())) {
+		AuraContext->SetDeathImpulse(InDeathImpulse);
 	}
 }
 
@@ -292,6 +307,7 @@ ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams) {
 	const AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
 	FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceAbilitySystemComponent->
 	                                                                      MakeEffectContext();
+	SetDeathImpulse(EffectContextHandle, DamageEffectParams.DeathImpulse);
 	EffectContextHandle.AddSourceObject(SourceAvatarActor);
 	const FGameplayEffectSpecHandle SpecHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(
 		DamageEffectParams.DamageGameplayEffectClass,
