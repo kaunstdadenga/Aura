@@ -6,6 +6,7 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Actor/AuraProjectile.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 FString UAuraFireBolt::GetDescription(int32 Level) {
@@ -111,8 +112,9 @@ void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, co
 
 	const FVector Forward = Rotation.Vector();
 
+	const int32 EffectiveNumProjectiles = FMath::Min(NumProjectiles, GetAbilityLevel());
 	TArray<FRotator> Rotations = UAuraAbilitySystemLibrary::EvenlySpacedRotators(
-		Forward, FVector::UpVector, ProjectileSpread, NumProjectiles);
+		Forward, FVector::UpVector, ProjectileSpread, EffectiveNumProjectiles);
 
 	for (const FRotator& Rot : Rotations) {
 		FTransform SpawnTransform;
@@ -125,6 +127,20 @@ void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, co
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
 		Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+
+		if (HomingTarget && HomingTarget->Implements<UCombatInterface>()) {
+			Projectile->ProjectileMovementComponent->HomingTargetComponent = HomingTarget->GetRootComponent();
+		}
+		else {
+			Projectile->HomingTargetSceneComponent = NewObject<USceneComponent>(
+				USceneComponent::StaticClass());
+			Projectile->HomingTargetSceneComponent->SetWorldLocation(ProjectileTargetLocation);
+			Projectile->ProjectileMovementComponent->HomingTargetComponent = Projectile->HomingTargetSceneComponent;
+		}
+		Projectile->ProjectileMovementComponent->HomingAccelerationMagnitude = FMath::FRandRange(
+			HomingAccelerationMin, HomingAccelerationMax);
+		Projectile->ProjectileMovementComponent->bIsHomingProjectile = bLaunchHomingProjectiles;
+
 		Projectile->FinishSpawning(SpawnTransform);
 	}
 }
