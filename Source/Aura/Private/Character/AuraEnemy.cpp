@@ -130,4 +130,5 @@ void AAuraEnemy::InitAbilityActorInfo() {
 	if (HasAuthority()) {
 		InitializeDefaultAttributes();
 	}
+	OnASCRegistered.Broadcast(AbilitySystemComponent);
 }
